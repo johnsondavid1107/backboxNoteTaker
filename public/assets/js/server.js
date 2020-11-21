@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const app = express();
+const notesArray = require("../../../db/db.json");
+console.log(notesArray);
 
 
 const PORT = 1111;
@@ -36,15 +38,40 @@ app.get("/api/notes", function (req, res) {
 
 })
 
+app.delete("/api/notes/:id", function (req, res) {
+    console.log(req.params.id);
+    for (let i = 0; i < notesArray.length; i++) {
+
+        if (notesArray[i].id === Number(req.params.id)) {
+
+            notesArray.splice(req.params.id - 1, 1);
+            console.log(notesArray);
+
+        }
+    }
+
+    fs.writeFile("../../../db/db.json", JSON.stringify(notesArray), (err) =>
+        err ? console.error(err) : console.log("Successful"));
+
+    res.send("Completed! SUCCESS!");
+
+})
+
+
 app.post("/api/notes", function (req, res) {
 
     let note = req.body
-    for (let i = 0; i < noteObject.length +1; i++) {
-        note.number = i + 1
-    }
-    noteObject.push(note)
-    console.log(noteObject);
-    // fs.appendFile("../../../db/db.json", note);
+    let newID = notesArray.length + 1
+    note.id = newID
+
+    notesArray.push(note)
+    console.log(notesArray);
+
+    fs.writeFile("../../../db/db.json", JSON.stringify(notesArray), (err) =>
+        err ? console.error(err) : console.log("Successful"));
+
+    res.send("Completed! SUCCESS!");
+
 
 })
 
