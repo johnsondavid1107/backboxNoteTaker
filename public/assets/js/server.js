@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const app = express();
-const notesArray = require("../../../db/db.json");
+var notesArray = require("../../../db/db.json");
 
 
 const PORT = 1111;
@@ -34,14 +34,26 @@ app.get("/api/notes", function (req, res) {
 })
 
 app.delete("/api/notes/:id", function (req, res) {
-    // console.log(req.params.id);
-   
+    var choice = parseInt(req.params.id)
+    notesArray = notesArray.filter(function(data) {
+        if (data.id !== choice) {
+            return true;
+        }
+    })
+console.log(notesArray, "line43");
 
-       
-       
-            notesArray.splice(req.params.id - 1, 1);
-           console.log(req.params.id);
-        
+    // var idk = notesArray[choice].id
+
+    // console.log(notesArray[req.params.id].id,"line41") 
+    // notesArray = notesArray.filter(idk => idk != choice);
+    // console.log(notesArray[req.params.id].id,"line43") 
+
+    // notesArray.filter
+
+
+    //     notesArray.splice(req.params.id - 1, 1);
+    //    console.log(req.params.id);
+
 
 
     fs.writeFile("../../../db/db.json", JSON.stringify(notesArray), (err) =>
@@ -55,8 +67,8 @@ app.delete("/api/notes/:id", function (req, res) {
 app.post("/api/notes", function (req, res) {
 
     let note = req.body
-    // let newID = notesArray.length + 1
-    // note.id = newID
+    let newID = notesArray.length
+    note.id = newID
 
 
     notesArray.push(note)
