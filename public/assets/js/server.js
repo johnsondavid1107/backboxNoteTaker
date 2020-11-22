@@ -4,7 +4,7 @@ const fs = require("fs");
 const app = express();
 var notesArray = require("../../../db/db.json");
 
-
+var emptyArray = []
 const PORT = 1111;
 
 app.use(express.urlencoded({ extended: true }));
