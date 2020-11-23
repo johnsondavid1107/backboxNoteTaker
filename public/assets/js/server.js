@@ -5,7 +5,7 @@ const app = express();
 var notesArray = require("../../../db/db.json");
 
 var emptyArray = []
-const PORT = 1111;
+const PORT = process.env.PORT || 1111;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -41,20 +41,6 @@ app.delete("/api/notes/:id", function (req, res) {
         }
     })
 console.log(notesArray, "line43");
-
-    // var idk = notesArray[choice].id
-
-    // console.log(notesArray[req.params.id].id,"line41") 
-    // notesArray = notesArray.filter(idk => idk != choice);
-    // console.log(notesArray[req.params.id].id,"line43") 
-
-    // notesArray.filter
-
-
-    //     notesArray.splice(req.params.id - 1, 1);
-    //    console.log(req.params.id);
-
-
 
     fs.writeFile("../../../db/db.json", JSON.stringify(notesArray), (err) =>
         err ? console.error(err) : console.log("Successful"));
